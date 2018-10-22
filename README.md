@@ -42,4 +42,4 @@ Any engine that supports genuine ES2015 syntax and the following features:
 
 Alternatively, you can polyfill custom elements upfront and use Babel 7 to target older browsers.
 
-Feel free to live test the [native ES2015 version](https://webreflection.github.io/built-in-element/test/) or the [transpiled one](https://webreflection.github.io/built-in-element/test/es5/).
+Feel free to live test the [native ES2015 version](https://webreflection.github.io/built-in-element/test/) or the [transpiled one](https://webreflection.github.io/built-in-element/test/es5/), which works down to IE9.
