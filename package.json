@@ -1,0 +1,42 @@
+{
+  "name": "built-in-element",
+  "version": "0.1.3",
+  "description": "A polyfill for Custom Element built-in",
+  "main": "index.js",
+  "module": "index.js",
+  "unpkg": "min.js",
+  "scripts": {
+    "build": "npm run min && npm run es5 && npm run size && npm run test",
+    "es5": "cp index.js tmp.js && cat test/my-button.js >> tmp.js && cat tmp.js | babel --no-babelrc --presets=@babel/env > test/es5/index.js && rm tmp.js",
+    "min": "uglifyjs index.js --comments=/^!/ -c -m -o min.js",
+    "size": "cat index.js | wc -c;cat min.js | wc -c;gzip -c9 min.js | wc -c;cat min.js | brotli | wc -c && rm -f min.js.br",
+    "test": "npm run server & (sleep 1 && npm run nightmare && npm run kill)",
+    "nightmare": "node test || (npm run kill && exit 1)",
+    "server": "node -e 'require(`fs`).writeFileSync(`pid`,require(`child_process`).spawn(`http-server`,[`test`,`-s`]).pid);'",
+    "kill": "kill -9 $(cat pid) && rm -f pid"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/built-in-element.git"
+  },
+  "keywords": [
+    "Custom",
+    "Element",
+    "built-in",
+    "polyfill"
+  ],
+  "author": "Andrea Giammarchi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebReflection/built-in-element/issues"
+  },
+  "homepage": "https://github.com/WebReflection/built-in-element#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "http-server": "^0.11.1",
+    "nightmare": "^3.0.1",
+    "uglify-es": "^3.3.9"
+  }
+}
