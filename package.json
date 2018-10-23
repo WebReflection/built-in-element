@@ -7,8 +7,9 @@
   "unpkg": "min.js",
   "scripts": {
     "build": "npm run min && npm run es5 && npm run size && npm run test",
-    "es5": "cp index.js tmp.js && cat test/my-button.js >> tmp.js && cat tmp.js | babel --no-babelrc --presets=@babel/env > test/es5/index.js && rm tmp.js",
+    "es5": "cp index.js tmp.js && cat test/my-button.js >> tmp.js && cat tmp.js | babel --no-babelrc --presets=@babel/env > test/es5/index.js && rm tmp.js && npm run min5",
     "min": "uglifyjs index.js --comments=/^!/ -c -m -o min.js",
+    "min5": "uglifyjs test/es5/index.js --comments=/^!/ -c -m -o test/es5/min.js",
     "size": "cat index.js | wc -c;cat min.js | wc -c;gzip -c9 min.js | wc -c;cat min.js | brotli | wc -c && rm -f min.js.br",
     "test": "npm run server & (sleep 1 && npm run nightmare && npm run kill)",
     "nightmare": "node test || (npm run kill && exit 1)",
