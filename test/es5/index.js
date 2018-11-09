@@ -114,8 +114,24 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
       }
     };
 
+    var setupSubNodes = function setupSubNodes(node, setup) {
+      var nodes = node.querySelectorAll('[is]');
+
+      for (var i = 0, length = nodes.length; i < length; i++) {
+        setup(nodes[i]);
+      }
+    };
+
+    var disconnectIfNeeded = function disconnectIfNeeded(node) {
+      if (node.nodeType !== 1) return;
+      setupSubNodes(node, disconnectIfNeeded);
+      var info = getInfo(node);
+      if (info && node instanceof info.Class && DISCONNECTED_CALLBACK in node) node[DISCONNECTED_CALLBACK]();
+    };
+
     var setupIfNeeded = function setupIfNeeded(node) {
       if (node.nodeType !== 1) return;
+      setupSubNodes(node, setupIfNeeded);
       var info = getInfo(node);
 
       if (info) {
@@ -130,17 +146,12 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
             addedNodes = _changes$i2.addedNodes,
             removedNodes = _changes$i2.removedNodes;
 
-        for (var j = 0, len = addedNodes.length; j < len; j++) {
-          setupIfNeeded(addedNodes[j]);
+        for (var _i = 0, _length = addedNodes.length; _i < _length; _i++) {
+          setupIfNeeded(addedNodes[_i]);
         }
 
-        for (var _j = 0, _len = removedNodes.length; _j < _len; _j++) {
-          var node = removedNodes[_j];
-
-          if (node.nodeType === 1) {
-            var info = getInfo(node);
-            if (info && node instanceof info.Class && DISCONNECTED_CALLBACK in node) node[DISCONNECTED_CALLBACK]();
-          }
+        for (var _i2 = 0, _length2 = removedNodes.length; _i2 < _length2; _i2++) {
+          disconnectIfNeeded(removedNodes[j]);
         }
       }
     }).observe(document, {
