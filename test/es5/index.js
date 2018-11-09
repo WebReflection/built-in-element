@@ -96,6 +96,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
       if (oa.length) {
         new MutationObserver(attributeChanged).observe(node, {
+          attributes: true,
           attributeFilter: oa,
           attributeOldValue: true
         });
@@ -135,8 +136,11 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
         for (var _j = 0, _len = removedNodes.length; _j < _len; _j++) {
           var node = removedNodes[_j];
-          var info = getInfo(node);
-          if (info && node instanceof info.Class && DISCONNECTED_CALLBACK in node) node[DISCONNECTED_CALLBACK]();
+
+          if (node.nodeType === 1) {
+            var info = getInfo(node);
+            if (info && node instanceof info.Class && DISCONNECTED_CALLBACK in node) node[DISCONNECTED_CALLBACK]();
+          }
         }
       }
     }).observe(document, {

@@ -48,7 +48,11 @@
       if (oa.length) {
         new MutationObserver(attributeChanged).observe(
           node,
-          {attributeFilter: oa, attributeOldValue: true}
+          {
+            attributes: true,
+            attributeFilter: oa,
+            attributeOldValue: true
+          }
         );
         const changes = [];
         for (let i = 0, length = oa.length; i < length; i++)
@@ -74,13 +78,15 @@
           setupIfNeeded(addedNodes[j]);
         for (let j = 0, len = removedNodes.length; j < len; j++) {
           const node = removedNodes[j];
-          const info = getInfo(node);
-          if (
-            info &&
-            node instanceof info.Class &&
-            DISCONNECTED_CALLBACK in node
-          )
-            node[DISCONNECTED_CALLBACK]();
+          if (node.nodeType === 1) {
+            const info = getInfo(node);
+            if (
+              info &&
+              node instanceof info.Class &&
+              DISCONNECTED_CALLBACK in node
+            )
+              node[DISCONNECTED_CALLBACK]();
+          }
         }
       }
     }).observe(
