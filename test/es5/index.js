@@ -122,13 +122,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
       }
     };
 
-    var disconnectIfNeeded = function disconnectIfNeeded(node) {
-      if (node.nodeType !== 1) return;
-      setupSubNodes(node, disconnectIfNeeded);
-      var info = getInfo(node);
-      if (info && node instanceof info.Class && DISCONNECTED_CALLBACK in node) node[DISCONNECTED_CALLBACK]();
-    };
-
     var setupIfNeeded = function setupIfNeeded(node) {
       if (node.nodeType !== 1) return;
       setupSubNodes(node, setupIfNeeded);
@@ -140,18 +133,25 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
       }
     };
 
+    var disconnectIfNeeded = function disconnectIfNeeded(node) {
+      if (node.nodeType !== 1) return;
+      setupSubNodes(node, disconnectIfNeeded);
+      var info = getInfo(node);
+      if (info && node instanceof info.Class && DISCONNECTED_CALLBACK in node) node[DISCONNECTED_CALLBACK]();
+    };
+
     new MutationObserver(function (changes) {
       for (var i = 0, length = changes.length; i < length; i++) {
         var _changes$i2 = changes[i],
             addedNodes = _changes$i2.addedNodes,
             removedNodes = _changes$i2.removedNodes;
 
-        for (var _i = 0, _length = addedNodes.length; _i < _length; _i++) {
-          setupIfNeeded(addedNodes[_i]);
+        for (var j = 0, _length = addedNodes.length; j < _length; j++) {
+          setupIfNeeded(addedNodes[j]);
         }
 
-        for (var _i2 = 0, _length2 = removedNodes.length; _i2 < _length2; _i2++) {
-          disconnectIfNeeded(removedNodes[j]);
+        for (var _j = 0, _length2 = removedNodes.length; _j < _length2; _j++) {
+          disconnectIfNeeded(removedNodes[_j]);
         }
       }
     }).observe(document, {
