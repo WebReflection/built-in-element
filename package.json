@@ -12,7 +12,7 @@
     "min5": "uglifyjs test/es5/index.js --comments=/^!/ -c -m -o test/es5/min.js",
     "size": "cat index.js | wc -c;cat min.js | wc -c;gzip -c9 min.js | wc -c;cat min.js | brotli | wc -c && rm -f min.js.br",
     "test": "npm run server & (sleep 1 && npm run nightmare && npm run kill)",
-    "nightmare": "node test || (npm run kill && exit 1)",
+    "nightmare": "node test/nightmare.js || (npm run kill && exit 1)",
     "server": "node -e 'require(`fs`).writeFileSync(`pid`,require(`child_process`).spawn(`http-server`,[`test`,`-s`]).pid);'",
     "kill": "kill -9 $(cat pid) && rm -f pid"
   },
