@@ -92,9 +92,9 @@
     new MutationObserver(changes => {
       for (let i = 0, {length} = changes; i < length; i++) {
         const {addedNodes, removedNodes} = changes[i];
-        for (let i = 0, {length} = addedNodes; i < length; i++)
-          setupIfNeeded(addedNodes[i]);
-        for (let i = 0, {length} = removedNodes; i < length; i++)
+        for (let j = 0, {length} = addedNodes; j < length; j++)
+          setupIfNeeded(addedNodes[j]);
+        for (let j = 0, {length} = removedNodes; j < length; j++)
           disconnectIfNeeded(removedNodes[j]);
       }
     }).observe(
