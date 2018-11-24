@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/WebReflection/built-in-element.svg?branch=master)](https://travis-ci.com/WebReflection/built-in-element) ![WebReflection status](https://offline.report/status/webreflection.svg)
 
+## Project moved to [@ungap/custom-elements-builtin](https://github.com/ungap/custom-elements-builtin)
+
 A polyfill for Custom Elements built-in that patches the native registry in Safari and WebKit and it's [compatible with the Custom Elements polyfill](https://github.com/WebReflection/document-register-element).
 
 It doesn't touch Chrome and Firefox 63+ with native support, and it weights less than 1K.
